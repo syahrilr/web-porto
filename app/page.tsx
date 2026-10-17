@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { Sidebar } from "@/components/sidebar";
-import { Chips, ProjectCard } from "@/components/project-card";
+import { Chips, ProjectTile } from "@/components/project-card";
 import { experience } from "@/content/experience";
 import { profile } from "@/content/profile";
 import { featured, other } from "@/content/projects";
@@ -20,9 +20,9 @@ export default function Home() {
       <main className="pt-24 lg:w-[52%] lg:py-24">
         <section id="work" aria-label="Selected work" className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
           <Heading>Selected work</Heading>
-          <ul className="group/list space-y-12">
-            {featured.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {featured.map((p, i) => (
+              <ProjectTile key={p.slug} project={p} wide={i === 0 || i === featured.length - 1} />
             ))}
           </ul>
 

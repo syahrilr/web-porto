@@ -14,6 +14,8 @@ export type Project = {
   diagramNote: string;
   highlights: { value: string; label: string }[];
   prototype?: string;
+  tag: string;
+  art: "contour" | "graph" | "flow" | "grid" | "pulse" | "radar";
 };
 
 export type OtherProject = { year: string; title: string; stack: string; href?: string };
@@ -24,6 +26,8 @@ const clinics = "primary-care clinics";
 export const featured: Project[] = [
   {
     slug: "water-rag",
+    tag: "Water · Flood control",
+    art: "contour",
     title: "Water-Resources RAG Platform",
     client: water,
     role: "Main developer",
@@ -52,13 +56,15 @@ export const featured: Project[] = [
       "Real-time and graph questions go through MCP tools; SOP and regulation questions go through hybrid retrieval. Both meet in one prompt.",
     highlights: [
       { value: "5", label: "question domains" },
+      { value: "460+", label: "commits" },
       { value: "1024-d", label: "bge-m3 embeddings" },
       { value: "3", label: "MCP tool servers" },
-      { value: "460+", label: "commits" },
     ],
   },
   {
     slug: "flood-knowledge-graph",
+    tag: "Knowledge graph",
+    art: "graph",
     title: "Flood-Control Knowledge Graph",
     client: water,
     role: "Main developer",
@@ -83,14 +89,16 @@ export const featured: Project[] = [
     ],
     diagramNote: "Raw telemetry stays in MongoDB; the graph holds structure and aggregates, and every UI view and chat answer reads from it.",
     highlights: [
-      { value: "46", label: "locations modelled" },
       { value: "154", label: "pumps" },
+      { value: "46", label: "locations modelled" },
       { value: "3", label: "use cases" },
       { value: "220+", label: "commits" },
     ],
   },
   {
     slug: "visual-etl",
+    tag: "Healthcare · Data",
+    art: "flow",
     title: "Visual ETL Platform for Health Data",
     client: clinics,
     role: "Developer",
@@ -121,6 +129,8 @@ export const featured: Project[] = [
   },
   {
     slug: "scada-tag-master",
+    tag: "Water · SCADA",
+    art: "grid",
     title: "SCADA Tag Master Data",
     client: water,
     role: "Developer",
@@ -152,6 +162,8 @@ export const featured: Project[] = [
   },
   {
     slug: "clinical-decision-support",
+    tag: "Healthcare",
+    art: "pulse",
     title: "Clinical Decision Support for Primary Care",
     client: clinics,
     role: "Developer",
@@ -179,6 +191,8 @@ export const featured: Project[] = [
   },
   {
     slug: "rainfall-nowcasting",
+    tag: "Water · Weather",
+    art: "radar",
     title: "Rainfall Radar Detection & Nowcasting",
     client: water,
     role: "Developer",

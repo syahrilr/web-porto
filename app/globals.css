@@ -131,8 +131,24 @@
     @apply font-sans;
   }
   @media (prefers-reduced-motion: no-preference) {
+    .art-dash {
+      animation: art-dash 3s linear infinite;
+    }
+    .art-sweep {
+      animation: art-sweep 4s linear infinite;
+    }
     html {
       scroll-behavior: smooth;
     }
+  }
+}
+@keyframes art-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+@keyframes art-sweep {
+  to {
+    transform: rotate(360deg);
   }
 }

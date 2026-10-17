@@ -21,6 +21,19 @@ test("featured project shape", () => {
   }
 });
 
+test("bento tile fields", () => {
+  for (const p of featured) {
+    assert.ok(p.tag.length > 0, p.slug);
+    assert.ok(["contour", "graph", "flow", "grid", "pulse", "radar"].includes(p.art), p.slug);
+  }
+  assert.deepEqual(featured.map((p) => p.art), ["contour", "graph", "flow", "grid", "pulse", "radar"]);
+});
+
+test("tile headline numbers", () => {
+  assert.deepEqual(getProject("water-rag")!.highlights.slice(0, 2).map((h) => h.value), ["5", "460+"]);
+  assert.equal(getProject("flood-knowledge-graph")!.highlights[0].value, "154");
+});
+
 test("unknown slug", () => assert.equal(getProject("nope"), undefined));
 
 test("hero stats exact", () =>
