@@ -1,4 +1,5 @@
-export type DiagramNode = { label: string; sub?: string };
+export const LAYERS = ["Sources", "Data", "Services", "Interface"] as const;
+export type DiagramNode = { label: string; sub?: string; layer: (typeof LAYERS)[number] };
 
 export type Project = {
   slug: string;
@@ -47,12 +48,12 @@ export const featured: Project[] = [
       "Answer-quality evaluation with RAGAS and AI Verify Moonshot benchmarks.",
     ],
     diagram: [
-      { label: "SCADA & historians", sub: "TDengine, MongoDB" },
-      { label: "Ingest", sub: "n8n, OCR, chunking" },
-      { label: "Stores", sub: "MongoDB + Zilliz + Neo4j" },
-      { label: "Router", sub: "MCP tools or hybrid retrieval" },
-      { label: "LLM", sub: "Ollama / Groq" },
-      { label: "Chat UI", sub: "answer + sources" },
+      { label: "SCADA & historians", sub: "TDengine, MongoDB", layer: "Sources" },
+      { label: "Ingest", sub: "n8n, OCR, chunking", layer: "Data" },
+      { label: "Stores", sub: "MongoDB + Zilliz + Neo4j", layer: "Data" },
+      { label: "Router", sub: "MCP tools or hybrid retrieval", layer: "Services" },
+      { label: "LLM", sub: "Ollama / Groq", layer: "Services" },
+      { label: "Chat UI", sub: "answer + sources", layer: "Interface" },
     ],
     diagramNote:
       "Real-time and graph questions go through MCP tools; SOP and regulation questions go through hybrid retrieval. Both meet in one prompt.",
@@ -84,11 +85,11 @@ export const featured: Project[] = [
       "Graph-RAG chat with Gemini, limited by role-based access control and showing a mini graph for each answer.",
     ],
     diagram: [
-      { label: "SCADA HMI", sub: "+ tag workbook" },
-      { label: "MongoDB historian" },
-      { label: "Neo4j graph", sub: "GDS" },
-      { label: "Express API", sub: "+ MCP server" },
-      { label: "Next.js dashboard", sub: "Graph-RAG chat (Gemini)" },
+      { label: "SCADA HMI", sub: "+ tag workbook", layer: "Sources" },
+      { label: "MongoDB historian", layer: "Data" },
+      { label: "Neo4j graph", sub: "GDS", layer: "Data" },
+      { label: "Express API", sub: "+ MCP server", layer: "Services" },
+      { label: "Next.js dashboard", sub: "Graph-RAG chat (Gemini)", layer: "Interface" },
     ],
     diagramNote: "Raw telemetry stays in MongoDB; the graph holds structure and aggregates, and every UI view and chat answer reads from it.",
     highlights: [
@@ -119,11 +120,11 @@ export const featured: Project[] = [
       "Graceful degradation when external services (MCP server, n8n) are unreachable.",
     ],
     diagram: [
-      { label: "CSV / API sources", sub: "SIMPUS" },
-      { label: "Visual mapper", sub: "React Flow" },
-      { label: "Cypher generator", sub: "idempotent" },
-      { label: "Neo4j" },
-      { label: "LLM copilot", sub: "MCP tools + Milvus RAG" },
+      { label: "CSV / API sources", sub: "SIMPUS", layer: "Sources" },
+      { label: "Visual mapper", sub: "React Flow", layer: "Interface" },
+      { label: "Cypher generator", sub: "idempotent", layer: "Services" },
+      { label: "Neo4j", layer: "Data" },
+      { label: "LLM copilot", sub: "MCP tools + Milvus RAG", layer: "Services" },
     ],
     diagramNote: "The mapping is the single source; Cypher is generated from it, so the same pipeline can run again without duplicating data.",
     highlights: [
@@ -151,11 +152,11 @@ export const featured: Project[] = [
       "A production deploy runbook for a single Node process on PM2.",
     ],
     diagram: [
-      { label: "Tag workbook", sub: "one-time seed" },
-      { label: "MongoDB master data" },
-      { label: "Express API", sub: "Swagger" },
-      { label: "Historian lookup", sub: "MongoDB + TDengine" },
-      { label: "React dashboard" },
+      { label: "Tag workbook", sub: "one-time seed", layer: "Sources" },
+      { label: "MongoDB master data", layer: "Data" },
+      { label: "Express API", sub: "Swagger", layer: "Services" },
+      { label: "Historian lookup", sub: "MongoDB + TDengine", layer: "Services" },
+      { label: "React dashboard", layer: "Interface" },
     ],
     diagramNote: "Area → location → building → asset → tag, with each tag pointing to the historian collection and column that stores its values.",
     highlights: [
@@ -186,11 +187,11 @@ export const featured: Project[] = [
       "AI assistance with Gemini, plus an agentic command center with clinical entity extraction.",
     ],
     diagram: [
-      { label: "SIMPUS records" },
-      { label: "Neo4j clinical graph" },
-      { label: "MCP server", sub: "10 tools" },
-      { label: "CDSS API", sub: "Gemini" },
-      { label: "Clinic web app" },
+      { label: "SIMPUS records", layer: "Sources" },
+      { label: "Neo4j clinical graph", layer: "Data" },
+      { label: "MCP server", sub: "10 tools", layer: "Services" },
+      { label: "CDSS API", sub: "Gemini", layer: "Services" },
+      { label: "Clinic web app", layer: "Interface" },
     ],
     diagramNote: "The same graph serves the clinic app and any MCP-capable assistant, with read-only access for ad-hoc queries.",
     highlights: [{ value: "10", label: "MCP tools" }],
@@ -215,11 +216,11 @@ export const featured: Project[] = [
       "A Python nowcasting prototype using DualTVL1 optical flow to extrapolate radar 10–180 minutes ahead in 10-minute steps.",
     ],
     diagram: [
-      { label: "BMKG radar", sub: "scheduled capture" },
-      { label: "Rain detection", sub: "per location" },
-      { label: "MongoDB" },
-      { label: "Optical-flow nowcast", sub: "Python, OpenCV" },
-      { label: "Dashboard", sub: "Next.js, Leaflet" },
+      { label: "BMKG radar", sub: "scheduled capture", layer: "Sources" },
+      { label: "Rain detection", sub: "per location", layer: "Services" },
+      { label: "MongoDB", layer: "Data" },
+      { label: "Optical-flow nowcast", sub: "Python, OpenCV", layer: "Services" },
+      { label: "Dashboard", sub: "Next.js, Leaflet", layer: "Interface" },
     ],
     diagramNote: "Every capture is stored, so forecasts can be scored against what actually fell.",
     highlights: [

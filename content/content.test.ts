@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { profile } from "./profile.ts";
-import { featured, other, getProject, groupByYear } from "./projects.ts";
+import { featured, other, getProject, groupByYear, LAYERS } from "./projects.ts";
 import { experience } from "./experience.ts";
 
 test("featured slugs in spec order", () =>
@@ -54,6 +54,29 @@ test("groupByYear: newest year first, newest start first", () =>
 test("tile headline numbers", () => {
   assert.deepEqual(getProject("water-rag")!.highlights.slice(0, 2).map((h) => h.value), ["5", "460+"]);
   assert.equal(getProject("flood-knowledge-graph")!.highlights[0].value, "154");
+});
+
+test("diagram layers match approved mapping", () => {
+  const byLayer = (slug: string) =>
+    Object.fromEntries(LAYERS.map((l) => [l, getProject(slug)!.diagram.filter((n) => n.layer === l).map((n) => n.label)]));
+  assert.deepEqual(byLayer("water-rag"), {
+    Sources: ["SCADA & historians"], Data: ["Ingest", "Stores"], Services: ["Router", "LLM"], Interface: ["Chat UI"],
+  });
+  assert.deepEqual(byLayer("flood-knowledge-graph"), {
+    Sources: ["SCADA HMI"], Data: ["MongoDB historian", "Neo4j graph"], Services: ["Express API"], Interface: ["Next.js dashboard"],
+  });
+  assert.deepEqual(byLayer("visual-etl"), {
+    Sources: ["CSV / API sources"], Data: ["Neo4j"], Services: ["Cypher generator", "LLM copilot"], Interface: ["Visual mapper"],
+  });
+  assert.deepEqual(byLayer("scada-tag-master"), {
+    Sources: ["Tag workbook"], Data: ["MongoDB master data"], Services: ["Express API", "Historian lookup"], Interface: ["React dashboard"],
+  });
+  assert.deepEqual(byLayer("clinical-decision-support"), {
+    Sources: ["SIMPUS records"], Data: ["Neo4j clinical graph"], Services: ["MCP server", "CDSS API"], Interface: ["Clinic web app"],
+  });
+  assert.deepEqual(byLayer("rainfall-nowcasting"), {
+    Sources: ["BMKG radar"], Data: ["MongoDB"], Services: ["Rain detection", "Optical-flow nowcast"], Interface: ["Dashboard"],
+  });
 });
 
 test("unknown slug", () => assert.equal(getProject("nope"), undefined));
