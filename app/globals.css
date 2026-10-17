@@ -4,7 +4,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-paper: #f1eada;
+  --color-sand: #e1d4b8;
+  --color-ink: #101010;
+  --color-body: #3d3a33;
+  --color-dim: #5c4f33;
+  --color-leaf: #10935b;
+  --color-leaf-ink: #07633c;
+  --color-coral: #e8465e;
+  --color-coral-ink: #a8253b;
+}
+
 @theme inline {
+  --font-display: var(--font-anton);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -122,10 +135,10 @@
     @apply border-border;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-teal-300;
+    @apply outline-2 outline-offset-2 outline-leaf-ink;
   }
   body {
-    @apply bg-slate-900 leading-relaxed text-slate-400 antialiased selection:bg-teal-300 selection:text-teal-900;
+    @apply bg-paper leading-relaxed text-body antialiased selection:bg-leaf selection:text-paper;
   }
   html {
     @apply font-sans;

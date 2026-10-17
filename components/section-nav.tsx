@@ -29,8 +29,8 @@ export function SectionNav({ ids }: { ids: readonly string[] }) {
           return (
             <li key={id}>
               <a href={`#${id}`} aria-current={on || undefined} className="group flex items-center py-2">
-                <span className={`mr-4 h-px bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 motion-reduce:transition-none ${on ? "w-16 bg-slate-200" : "w-8"}`} />
-                <span className={`font-mono text-xs font-bold tracking-widest uppercase group-hover:text-slate-200 ${on ? "text-slate-200" : "text-slate-400"}`}>
+                <span className={`mr-4 h-px bg-dim transition-all group-hover:w-16 group-hover:bg-ink motion-reduce:transition-none ${on ? "w-16 bg-ink" : "w-8"}`} />
+                <span className={`font-mono text-xs font-bold tracking-widest uppercase group-hover:text-ink ${on ? "text-ink" : "text-dim"}`}>
                   {id}
                 </span>
               </a>

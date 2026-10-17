@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { Project } from "@/content/projects";
+import { groupByYear, type Project } from "@/content/projects";
 
 export function Chips({ items }: { items: string[] }) {
   return (
     <ul className="flex flex-wrap gap-1.5" aria-label="Technologies">
       {items.map((t) => (
         <li key={t}>
-          <Badge className="rounded-full bg-teal-400/10 font-mono text-[11px] text-teal-300">{t}</Badge>
+          <Badge className="rounded-full bg-sand font-mono text-[11px] text-leaf-ink">{t}</Badge>
         </li>
       ))}
     </ul>
@@ -16,89 +16,111 @@ export function Chips({ items }: { items: string[] }) {
 }
 
 const tone = {
-  teal: { stroke: "#2dd4bf", pill: "bg-teal-400/10 text-teal-300", num: "text-teal-300", hover: "hover:border-teal-400/40 hover:shadow-teal-500/15" },
-  indigo: { stroke: "#a5b4fc", pill: "bg-indigo-400/15 text-indigo-300", num: "text-indigo-300", hover: "hover:border-indigo-400/40 hover:shadow-indigo-500/15" },
-  rose: { stroke: "#fda4af", pill: "bg-rose-400/15 text-rose-300", num: "text-rose-300", hover: "hover:border-rose-400/40 hover:shadow-rose-500/15" },
+  leaf: { stroke: "#10935b", label: "text-leaf-ink", num: "text-leaf" },
+  ink: { stroke: "#101010", label: "text-dim", num: "text-ink" },
+  coral: { stroke: "#e8465e", label: "text-coral-ink", num: "text-coral" },
 };
 const toneOf: Record<Project["art"], keyof typeof tone> = {
-  contour: "teal", grid: "teal", radar: "teal", graph: "indigo", pulse: "rose", flow: "rose",
+  contour: "leaf", grid: "leaf", radar: "leaf", graph: "ink", pulse: "coral", flow: "coral",
 };
 
 // ponytail: hand-drawn SVG per domain, no image assets (client screenshots are off-limits)
 function Art({ kind, color }: { kind: Project["art"]; color: string }) {
-  const svg = { className: "absolute inset-0 h-full w-full opacity-50", fill: "none", stroke: color, "aria-hidden": true } as const;
+  const svg = { className: "absolute inset-y-0 right-20 hidden h-full w-2/5 opacity-30 sm:block", viewBox: "0 0 160 80", preserveAspectRatio: "xMidYMid meet", fill: "none", stroke: color, "aria-hidden": true } as const;
   switch (kind) {
     case "contour":
       return (
-        <svg {...svg} viewBox="0 0 520 240" preserveAspectRatio="none">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <path key={i} opacity={0.5 - i * 0.08} className={i === 4 ? "art-dash" : undefined} strokeDasharray={i === 4 ? "4 6" : undefined}
-              d={`M-10 ${200 - i * 30} C${80 + i * 10} ${160 - i * 30} ${160 + i * 10} ${220 - i * 30} ${260 + i * 10} ${180 - i * 30} S${440 + i * 10} ${130 - i * 30} 540 ${170 - i * 30}`} />
+        <svg {...svg}>
+          {[0, 1, 2, 3].map((i) => (
+            <path key={i} className={i === 3 ? "art-dash" : undefined} strokeDasharray={i === 3 ? "4 6" : undefined} d={`M0 ${66 - i * 14} C40 ${50 - i * 14} 70 ${74 - i * 14} 100 ${58 - i * 14} S140 ${44 - i * 14} 160 ${54 - i * 14}`} />
           ))}
         </svg>
       );
     case "graph":
       return (
-        <svg {...svg} viewBox="0 0 250 180" preserveAspectRatio="xMaxYMid slice">
-          <g opacity=".6"><path d="M40 40 120 70 200 30M120 70 170 120M40 40 70 110 170 120" /></g>
-          <g fill={color} stroke="none">{[[40, 40, 4], [120, 70, 6], [200, 30, 3], [170, 120, 4], [70, 110, 3]].map(([x, y, r]) => <circle key={x} cx={x} cy={y} r={r} />)}</g>
+        <svg {...svg}>
+          <path d="M40 20 90 42 140 14M90 42 120 68M40 20 60 62 120 68" />
+          <g fill={color} stroke="none">{[[40, 20, 3], [90, 42, 5], [140, 14, 3], [120, 68, 4], [60, 62, 3]].map(([x, y, r]) => <circle key={x} cx={x} cy={y} r={r} />)}</g>
         </svg>
       );
     case "pulse":
       return (
-        <svg {...svg} viewBox="0 0 250 180" preserveAspectRatio="xMaxYMid slice" strokeWidth="1.5">
-          <path className="art-dash" strokeDasharray="400" opacity=".7" d="M0 95H70L85 60 100 130 115 40 130 95H250" />
+        <svg {...svg} strokeWidth="1.5">
+          <path className="art-dash" strokeDasharray="300" d="M0 44H60L70 20 80 64 90 10 100 44H160" />
         </svg>
       );
     case "radar":
       return (
-        <svg {...svg} viewBox="0 0 520 240" preserveAspectRatio="xMaxYMid slice">
-          {[25, 55, 85, 115].map((r, i) => <circle key={r} cx="430" cy="90" r={r} opacity={0.5 - i * 0.1} />)}
-          <line className="art-sweep" x1="430" y1="90" x2="430" y2="-25" opacity=".8" style={{ transformOrigin: "430px 90px" }} />
+        <svg {...svg}>
+          {[10, 22, 34].map((r) => <circle key={r} cx="110" cy="40" r={r} />)}
+          <line className="art-sweep" x1="110" y1="40" x2="110" y2="4" style={{ transformOrigin: "110px 40px" }} />
         </svg>
       );
     case "grid":
       return (
-        <svg {...svg} viewBox="0 0 250 180" preserveAspectRatio="xMaxYMid slice" fill={color} stroke="none">
-          <g opacity=".35">{Array.from({ length: 16 }, (_, i) => <rect key={i} x={150 + (i % 4) * 16} y={20 + Math.floor(i / 4) * 16} width="10" height="10" rx="2" opacity={(i * 7) % 3 ? 1 : 0.4} />)}</g>
+        <svg {...svg} fill={color} stroke="none">
+          {Array.from({ length: 12 }, (_, i) => <rect key={i} x={70 + (i % 4) * 14} y={16 + Math.floor(i / 4) * 14} width="9" height="9" rx="2" opacity={(i * 7) % 3 ? 1 : 0.4} />)}
         </svg>
       );
     case "flow":
       return (
-        <svg {...svg} viewBox="0 0 250 180" preserveAspectRatio="xMaxYMid slice">
-          <g opacity=".55">{[20, 60, 100].map((y) => <rect key={y} x="150" y={y} width="70" height="22" rx="4" />)}</g>
-          <path className="art-dash" strokeDasharray="4 6" opacity=".7" d="M185 42V60M185 82V100" />
+        <svg {...svg}>
+          {[8, 32, 56].map((y) => <rect key={y} x="80" y={y} width="50" height="16" rx="3" />)}
+          <path className="art-dash" strokeDasharray="3 5" d="M105 24V32M105 48V56" />
         </svg>
       );
   }
 }
 
-export function ProjectTile({ project: p, wide }: { project: Project; wide?: boolean }) {
+function Entry({ project: p }: { project: Project }) {
   const t = tone[toneOf[p.art]];
-  const numbers = p.highlights.slice(0, wide ? 2 : 1);
+  const h = p.highlights[0];
   return (
-    <li className={wide ? "sm:col-span-2" : undefined}>
+    <li>
       <Link
         href={`/work/${p.slug}`}
-        className={`group relative flex h-full flex-col justify-end gap-2 overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-800/60 to-slate-900 p-5 shadow-2xl shadow-transparent transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${t.hover} ${wide ? "min-h-60" : "min-h-52"}`}
+        className="group relative grid grid-cols-[1fr_auto] items-center gap-4 overflow-hidden rounded-xl border border-sand bg-white/50 px-4 py-3 transition hover:-translate-y-0.5 hover:border-ink hover:bg-white/80 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
       >
         <Art kind={p.art} color={t.stroke} />
-        <span className={`relative self-start rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold tracking-widest uppercase ${t.pill}`}>{p.tag}</span>
-        <h3 className={`relative flex items-baseline gap-1 font-semibold text-slate-200 group-hover:text-white ${wide ? "text-xl" : "text-base"}`}>
-          {p.title}
-          <ArrowRight aria-hidden className="size-4 shrink-0 translate-y-0.5 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
-        </h3>
-        {wide && <p className="relative max-w-sm text-sm">{p.summary}</p>}
-        <div className="relative flex gap-6">
-          {numbers.map((h) => (
-            <p key={h.label}>
-              <span className={`block font-mono text-3xl leading-none font-bold ${t.num}`}>{h.value}</span>
-              <span className="text-xs text-slate-400">{h.label}</span>
-            </p>
-          ))}
+        <div className="relative">
+          <p className={`font-mono text-[10px] font-semibold tracking-widest uppercase ${t.label}`}>
+            {p.period} · {p.tag}
+          </p>
+          <h3 className="mt-0.5 flex items-baseline gap-1 font-semibold text-ink">
+            {p.title}
+            <ArrowRight aria-hidden className="size-4 shrink-0 translate-y-0.5 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
+          </h3>
+          {p.prototype && <p className="text-xs text-dim italic">{p.prototype}</p>}
         </div>
-        {p.prototype && <p className="relative text-xs text-slate-400 italic">{p.prototype}</p>}
+        {h && (
+          <p className="relative text-right">
+            <span className={`block font-display leading-none ${h.value.length > 6 ? "text-2xl" : "text-3xl"} ${t.num}`}>{h.value}</span>
+            <span className="text-[11px] text-dim">{h.label}</span>
+          </p>
+        )}
       </Link>
     </li>
+  );
+}
+
+export function Timeline({ projects }: { projects: Project[] }) {
+  return (
+    <ol className="border-b-2 border-ink">
+      {groupByYear(projects).map((g) => (
+        <li key={g.year} className="grid gap-4 border-t-2 border-ink py-5 sm:grid-cols-[8rem_1fr]">
+          <p>
+            <span className="block font-display text-6xl leading-none text-ink">{g.year}</span>
+            <span className="mt-2 block font-mono text-[10px] font-bold tracking-widest text-dim uppercase">
+              {g.items.length} {g.items.length === 1 ? "project" : "projects"}
+            </span>
+          </p>
+          <ul className="space-y-2">
+            {g.items.map((p) => (
+              <Entry key={p.slug} project={p} />
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
   );
 }

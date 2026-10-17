@@ -16,6 +16,7 @@ export type Project = {
   prototype?: string;
   tag: string;
   art: "contour" | "graph" | "flow" | "grid" | "pulse" | "radar";
+  start: string; // YYYY-MM, first commit
 };
 
 export type OtherProject = { year: string; title: string; stack: string; href?: string };
@@ -31,7 +32,8 @@ export const featured: Project[] = [
     title: "Water-Resources RAG Platform",
     client: water,
     role: "Main developer",
-    period: "2025 — Present",
+    start: "2025-11",
+    period: "Nov 2025 — Present",
     summary: "Question answering over live pump-station SCADA data, flood records, SOPs and operator logbooks.",
     stack: ["Express", "React", "MongoDB", "Zilliz", "Neo4j", "TDengine", "LangChain", "Ollama", "Groq", "n8n", "MCP"],
     problem:
@@ -68,7 +70,8 @@ export const featured: Project[] = [
     title: "Flood-Control Knowledge Graph",
     client: water,
     role: "Main developer",
-    period: "2026",
+    start: "2026-06",
+    period: "Jun 2026 — Present",
     summary: "A Neo4j knowledge graph of pump stations with energy-efficiency analysis, flood early warning and role-aware Graph-RAG chat.",
     stack: ["TypeScript", "Next.js", "Express", "Neo4j GDS", "MongoDB", "Leaflet", "Cytoscape", "Gemini", "MCP", "Turborepo"],
     problem:
@@ -102,7 +105,8 @@ export const featured: Project[] = [
     title: "Visual ETL Platform for Health Data",
     client: clinics,
     role: "Developer",
-    period: "2026",
+    start: "2026-04",
+    period: "Apr — Jul 2026",
     summary: "Drag-and-drop mapping of clinic CSV/API data onto a Neo4j schema, with an LLM copilot that can call MCP tools.",
     stack: ["Next.js 16", "React 19", "React Flow", "Three.js", "Express", "Prisma", "PostgreSQL", "Neo4j", "Milvus", "MCP", "n8n"],
     problem:
@@ -134,7 +138,8 @@ export const featured: Project[] = [
     title: "SCADA Tag Master Data",
     client: water,
     role: "Developer",
-    period: "2026",
+    start: "2026-07",
+    period: "Jul 2026 — Present",
     summary: "One source of truth for flood-control SCADA tags, from area down to individual sensor, mapped to where their history lives.",
     stack: ["Express", "MongoDB", "Mongoose", "TypeScript", "React", "Vite", "Tailwind CSS", "shadcn/ui", "PM2"],
     problem:
@@ -167,7 +172,8 @@ export const featured: Project[] = [
     title: "Clinical Decision Support for Primary Care",
     client: clinics,
     role: "Developer",
-    period: "2026",
+    start: "2026-03",
+    period: "Mar — May 2026",
     summary: "Decision support for clinic staff: patient records, drug checks, similar-case search and an MCP server over a clinical knowledge graph.",
     stack: ["Next.js", "shadcn/ui", "Neo4j", "MCP", "Gemini", "Redis"],
     problem:
@@ -196,7 +202,8 @@ export const featured: Project[] = [
     title: "Rainfall Radar Detection & Nowcasting",
     client: water,
     role: "Developer",
-    period: "2025 — 2026",
+    start: "2025-10",
+    period: "Oct 2025 — Present",
     summary: "Captures BMKG weather-radar images, reads rainfall per pump-station location and tracks forecast accuracy over time.",
     stack: ["Next.js", "Leaflet", "MongoDB", "Python", "OpenCV"],
     problem:
@@ -233,5 +240,12 @@ export const other: OtherProject[] = [
   { year: "2024", title: "REST vs tRPC Performance Study (thesis)", stack: "Next.js · tRPC · Prisma · JMeter", href: "https://github.com/syahrilr/tugas-akhir-rest-trpc" },
   { year: "2021", title: "Agreement Management System", stack: "Laravel", href: "https://github.com/fznrl/aplikasi-rekapan-perjanjian" },
 ];
+
+// Timeline groups: newest year first, newest start first within a year.
+export function groupByYear(projects: Project[]) {
+  const sorted = [...projects].sort((a, b) => b.start.localeCompare(a.start));
+  const years = [...new Set(sorted.map((p) => p.start.slice(0, 4)))];
+  return years.map((year) => ({ year, items: sorted.filter((p) => p.start.startsWith(year)) }));
+}
 
 export const getProject = (slug: string) => featured.find((p) => p.slug === slug);

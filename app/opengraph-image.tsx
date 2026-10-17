@@ -8,10 +8,10 @@ export const contentType = "image/png";
 export default function Image() {
   return new ImageResponse(
     (
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", height: "100%", padding: 80, background: "#0f172a" }}>
-        <div style={{ fontSize: 72, fontWeight: 700, color: "#e2e8f0" }}>{profile.name}</div>
-        <div style={{ fontSize: 40, color: "#5eead4", marginTop: 16 }}>{profile.role}</div>
-        <div style={{ fontSize: 30, color: "#94a3b8", marginTop: 32, maxWidth: 900 }}>{profile.tagline}</div>
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", height: "100%", padding: 80, background: "#f1eada" }}>
+        <div style={{ fontSize: 72, fontWeight: 700, color: "#101010" }}>{profile.name}</div>
+        <div style={{ fontSize: 40, color: "#07633c", marginTop: 16 }}>{profile.role}</div>
+        <div style={{ fontSize: 30, color: "#3d3a33", marginTop: 32, maxWidth: 900 }}>{profile.tagline}</div>
       </div>
     ),
     size,

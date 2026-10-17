@@ -7,14 +7,14 @@ export function FlowDiagram({ nodes }: { nodes: DiagramNode[] }) {
       {nodes.map((n, i) => (
         <li key={n.label} className="flex flex-col items-center gap-1 sm:flex-row sm:gap-2">
           {i > 0 && (
-            <span aria-hidden className="text-teal-300/70">
+            <span aria-hidden className="text-leaf">
               <span className="sm:hidden">↓</span>
               <span className="hidden sm:inline">→</span>
             </span>
           )}
-          <span className="w-full rounded border border-slate-700 bg-slate-800/60 px-3 py-2 text-center text-slate-300 sm:w-auto">
+          <span className="w-full rounded border border-sand bg-white/60 px-3 py-2 text-center text-ink sm:w-auto">
             {n.label}
-            {n.sub && <span className="block text-[11px] text-slate-400">{n.sub}</span>}
+            {n.sub && <span className="block text-[11px] text-dim">{n.sub}</span>}
           </span>
         </li>
       ))}

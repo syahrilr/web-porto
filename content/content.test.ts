@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { profile } from "./profile.ts";
-import { featured, other, getProject } from "./projects.ts";
+import { featured, other, getProject, groupByYear } from "./projects.ts";
 import { experience } from "./experience.ts";
 
 test("featured slugs in spec order", () =>
@@ -28,6 +28,28 @@ test("bento tile fields", () => {
   }
   assert.deepEqual(featured.map((p) => p.art), ["contour", "graph", "flow", "grid", "pulse", "radar"]);
 });
+
+test("timeline starts from git history", () =>
+  assert.deepEqual(
+    Object.fromEntries(featured.map((p) => [p.slug, p.start])),
+    {
+      "water-rag": "2025-11",
+      "flood-knowledge-graph": "2026-06",
+      "visual-etl": "2026-04",
+      "scada-tag-master": "2026-07",
+      "clinical-decision-support": "2026-03",
+      "rainfall-nowcasting": "2025-10",
+    },
+  ));
+
+test("groupByYear: newest year first, newest start first", () =>
+  assert.deepEqual(
+    groupByYear(featured).map((g) => [g.year, g.items.map((p) => p.slug)]),
+    [
+      ["2026", ["scada-tag-master", "flood-knowledge-graph", "visual-etl", "clinical-decision-support"]],
+      ["2025", ["water-rag", "rainfall-nowcasting"]],
+    ],
+  ));
 
 test("tile headline numbers", () => {
   assert.deepEqual(getProject("water-rag")!.highlights.slice(0, 2).map((h) => h.value), ["5", "460+"]);
