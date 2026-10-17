@@ -20,7 +20,7 @@ export type Project = {
   start: string; // YYYY-MM, first commit
 };
 
-export type OtherProject = { year: string; title: string; stack: string; href?: string };
+export type OtherProject = { year: string; title: string; stack: string; href?: string; summary: string; bullets: string[] };
 
 const water = "a regional water-resources agency in Indonesia";
 const clinics = "primary-care clinics";
@@ -232,14 +232,89 @@ export const featured: Project[] = [
 ];
 
 export const other: OtherProject[] = [
-  { year: "2026", title: "Plantation Analytics Chatbot & MCP Server", stack: "Next.js · Express · PostgreSQL · Neo4j · MCP" },
-  { year: "2025", title: "Multimodal RAG for Medical Records", stack: "Python · Streamlit · FAISS" },
-  { year: "2025", title: "University Academic & Admission Systems", stack: "Next.js · TypeScript · Tailwind CSS" },
-  { year: "2025", title: "AI Clinical Tutor", stack: "Django · Transformers · Redis" },
-  { year: "2026", title: "Travel Agency Website + CMS", stack: "Next.js · Prisma · shadcn/ui" },
-  { year: "2026", title: "Internal App Launcher", stack: "Tauri · React · Vite" },
-  { year: "2024", title: "REST vs tRPC Performance Study (thesis)", stack: "Next.js · tRPC · Prisma · JMeter", href: "https://github.com/syahrilr/tugas-akhir-rest-trpc" },
-  { year: "2021", title: "Agreement Management System", stack: "Laravel", href: "https://github.com/fznrl/aplikasi-rekapan-perjanjian" },
+  {
+    year: "2026",
+    title: "Plantation Analytics Chatbot & MCP Server",
+    stack: "Next.js · Express · PostgreSQL · Neo4j · MCP · FastAPI",
+    summary: "Analytics dashboard and AI chatbot for an agribusiness enterprise, covering estates, harvest, mills, weighbridge, logistics, workforce, finance and ESG.",
+    bullets: [
+      "Enterprise analytics MCP server with tool modules for estates, mills, finance, workforce, supply chain and executive reporting, over PostgreSQL (Prisma) and Neo4j.",
+      "FastAPI service that converts and queries Parquet data.",
+    ],
+  },
+  {
+    year: "2025",
+    title: "Multimodal RAG for Medical Records",
+    stack: "Python · Streamlit · FAISS",
+    summary: "Streamlit platform applying RAG to medical-record API data, images and multimodal PDFs.",
+    bullets: [
+      "Context-aware chunking of each medical record into summary, SOAP, diagnosis and vital-sign chunks.",
+      "Separate FAISS indexes for text, image and multimodal retrieval.",
+    ],
+  },
+  {
+    year: "2025",
+    title: "University Academic & Admission Systems",
+    stack: "Next.js · TypeScript · Tailwind CSS",
+    summary: "Web apps for a university: an academic information system, a student admission portal and staff management.",
+    bullets: [
+      "Academic system: course registration, schedules, e-learning, discussion forum, grades and clarifications, transcripts, payments, questionnaires and tracer study.",
+      "Admission portal: programs, tuition and scholarships, plus admin management of applicants, documents and payments.",
+    ],
+  },
+  {
+    year: "2025",
+    title: "AI Clinical Tutor",
+    stack: "Django · Transformers · Redis",
+    summary: "Django service that analyzes medical cases against clinical guidelines and prepares exam material for medical students.",
+    bullets: [
+      "REST API with case-analysis and exam-prep modules.",
+      "Hugging Face pipelines and sentence-transformers embeddings for case analysis.",
+    ],
+  },
+  {
+    year: "2026",
+    title: "Travel Agency Website + CMS",
+    stack: "Next.js · Prisma · shadcn/ui",
+    summary: "Company website for a travel agency, with an admin CMS the team uses to keep content up to date.",
+    bullets: [
+      "Public pages for travel packages, departure schedules, agent directory and company profile.",
+      "Admin area with content editing, image upload and login.",
+    ],
+  },
+  {
+    year: "2026",
+    title: "Internal App Launcher",
+    stack: "Tauri · React · Vite · TypeScript",
+    summary: "Desktop app that catalogs internal services, their environments and where their secrets are kept, with live health checks.",
+    bullets: [
+      "Per-environment health checks with a status dot per app (any HTTP answer below 500 counts as up).",
+      "Stores only secret locations, never secret values.",
+    ],
+  },
+  {
+    year: "2024",
+    title: "REST vs tRPC Performance Study (thesis)",
+    stack: "Next.js · tRPC · Prisma · JMeter",
+    href: "https://github.com/syahrilr/tugas-akhir-rest-trpc",
+    summary: "Undergraduate thesis comparing REST and tRPC web services under load.",
+    bullets: [
+      "Built both APIs in Next.js with TypeScript, Auth.js, Prisma and Zod.",
+      "Measured response time, throughput and CPU usage with Apache JMeter for nested and non-nested data.",
+      "REST was more efficient for simple requests; tRPC handled complex, large payloads better.",
+    ],
+  },
+  {
+    year: "2021",
+    title: "Agreement Management System",
+    stack: "Laravel",
+    href: "https://github.com/fznrl/aplikasi-rekapan-perjanjian",
+    summary: "Laravel app built during an internship to manage agreement records for a ship services unit.",
+    bullets: [
+      "Structured workflows and database design for agreement documentation.",
+      "Digitized the documentation process so records are easier to find across the organization.",
+    ],
+  },
 ];
 
 // Timeline groups: newest year first, newest start first within a year.

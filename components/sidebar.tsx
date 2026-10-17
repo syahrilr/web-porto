@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { SectionNav } from "@/components/section-nav";
 import { profile } from "@/content/profile";
 
-const sections = ["work", "experience", "about"] as const;
+const sections = ["work", "skills", "experience", "about"] as const;
 
 export function Sidebar() {
   const links = [

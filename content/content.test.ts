@@ -79,6 +79,22 @@ test("diagram layers match approved mapping", () => {
   });
 });
 
+test("skills grouped by approved categories", () =>
+  assert.deepEqual(profile.skills.map((g) => g.group), ["Languages", "AI & Retrieval", "Data", "Backend", "Frontend", "Ops & Tools"]));
+
+test("every skill group has items, no duplicates", () => {
+  const all = profile.skills.flatMap((g) => g.items);
+  assert.ok(profile.skills.every((g) => g.items.length > 0));
+  assert.equal(new Set(all).size, all.length);
+});
+
+test("other work has accordion details", () => {
+  for (const o of other) {
+    assert.ok(o.summary.length > 20, o.title);
+    assert.ok(o.bullets.length >= 1 && o.bullets.length <= 3, o.title);
+  }
+});
+
 test("unknown slug", () => assert.equal(getProject("nope"), undefined));
 
 test("hero stats exact", () =>
